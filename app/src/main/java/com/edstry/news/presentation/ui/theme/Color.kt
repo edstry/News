@@ -1,4 +1,4 @@
-package com.edstry.news.ui.theme
+package com.edstry.news.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
