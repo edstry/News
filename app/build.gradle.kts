@@ -74,4 +74,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.retrofit)
+    implementation(libs.converter.kotlinx.serialization)
 }

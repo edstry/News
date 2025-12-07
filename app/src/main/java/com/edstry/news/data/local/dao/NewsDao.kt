@@ -8,7 +8,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.edstry.news.data.local.model.ArticleDbModel
 import com.edstry.news.data.local.model.SubscriptionDbModel
-import com.edstry.news.domain.entity.Article
 import kotlinx.coroutines.flow.Flow
 
 @Dao
