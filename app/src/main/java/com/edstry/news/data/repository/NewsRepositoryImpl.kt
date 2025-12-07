@@ -53,10 +53,10 @@ class NewsRepositoryImpl @Inject constructor(
         newsDao.deleteSubscription(SubscriptionDbModel(topic))
     }
 
+    // Все эти запросы будут выполняться параллельно независимо друг от друга
+    // то есть в разных корутинах
     override suspend fun updateArticlesForAllSubscription() {
         val subscriptions = newsDao.getAllSubscriptions().first()
-        // Все эти запросы будут выполняться параллельно независимо друг от друга
-        // то есть в разных корутинах
         coroutineScope {
             subscriptions.forEach {
                 launch {
