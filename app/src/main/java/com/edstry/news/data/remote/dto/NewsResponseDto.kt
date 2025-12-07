@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NewsResponseDto(
     @SerialName("articles")
-    val articleDtos: List<ArticleDto>
+    val articleDtos: List<ArticleDto> = listOf()
 )

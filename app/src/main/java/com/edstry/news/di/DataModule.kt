@@ -5,6 +5,9 @@ import androidx.room.Room
 import com.edstry.news.data.local.dao.NewsDao
 import com.edstry.news.data.local.dao.NewsDatabase
 import com.edstry.news.data.remote.api.NewsApiService
+import com.edstry.news.data.repository.NewsRepositoryImpl
+import com.edstry.news.domain.repository.NewsRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,6 +24,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataModule {
+
+    @Binds
+    @Singleton
+    fun bindNewsRepository(
+        impl: NewsRepositoryImpl
+    ): NewsRepository
 
     companion object {
 

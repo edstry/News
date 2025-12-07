@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SourceDto(
     @SerialName("name")
-    val name: String
+    val name: String = ""
 )
