@@ -1,4 +1,4 @@
-package com.edstry.news.domain.usecase
+package com.edstry.news.domain.usecase.news
 
 import com.edstry.news.domain.entity.Article
 import com.edstry.news.domain.repository.NewsRepository

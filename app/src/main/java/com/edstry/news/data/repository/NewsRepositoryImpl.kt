@@ -29,6 +29,10 @@ class NewsRepositoryImpl @Inject constructor(
     private val workManager: WorkManager
 ) : NewsRepository {
 
+    init {
+        startBackgroundRefresh()
+    }
+
     override fun getAllSubscriptions(): Flow<List<String>> {
         return newsDao.getAllSubscriptions().map { subscriptions ->
             subscriptions.map { it.topic }
@@ -85,6 +89,7 @@ class NewsRepositoryImpl @Inject constructor(
         val request = PeriodicWorkRequestBuilder<RefreshDataWorker>(
             15L, TimeUnit.MINUTES
         ).build()
+
         workManager.enqueueUniquePeriodicWork(
             uniqueWorkName = "Refresh data",
             existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,

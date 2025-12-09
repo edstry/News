@@ -1,11 +1,10 @@
-package com.edstry.news.domain.usecase
+package com.edstry.news.domain.usecase.news
 
 import com.edstry.news.domain.repository.NewsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 class AddSubscriptionUseCase @Inject constructor(
     private val repository: NewsRepository

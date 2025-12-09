@@ -4,6 +4,7 @@ package com.edstry.news.data.mapper
 import com.edstry.news.data.local.model.ArticleDbModel
 import com.edstry.news.data.remote.dto.NewsResponseDto
 import com.edstry.news.domain.entity.Article
+import com.edstry.news.domain.entity.Interval
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -19,6 +20,10 @@ fun NewsResponseDto.toDbModels(topic: String): List<ArticleDbModel> {
             publishedAt = it.publishedAt.toTimestamp()
         )
     }
+}
+
+fun Int.toInterval(): Interval {
+    return Interval.entries.first { it.minutes == this}
 }
 
 fun List<ArticleDbModel>.toEntities(): List<Article> {
