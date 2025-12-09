@@ -2,6 +2,7 @@ package com.edstry.news.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.work.WorkManager
 import com.edstry.news.data.local.dao.NewsDao
 import com.edstry.news.data.local.dao.NewsDatabase
 import com.edstry.news.data.remote.api.NewsApiService
@@ -32,6 +33,12 @@ interface DataModule {
     ): NewsRepository
 
     companion object {
+
+        @Provides
+        @Singleton
+        fun provideWorkManager(
+            @ApplicationContext context: Context
+        ): WorkManager = WorkManager.getInstance(context)
 
         @Provides
         @Singleton
