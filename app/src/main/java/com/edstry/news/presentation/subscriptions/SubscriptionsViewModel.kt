@@ -2,6 +2,7 @@
 
 package com.edstry.news.presentation.subscriptions
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.edstry.news.domain.entity.Article
@@ -97,6 +98,8 @@ class SubscriptionsViewModel @Inject constructor(
                     val updatedTopics = subscriptions.associateWith { topic ->
                         previousState.subscriptions[topic] ?: true
                     }
+                    Log.d("observeSubscriptions", updatedTopics.toString())
+
                     previousState.copy(subscriptions = updatedTopics)
                 }
             }.launchIn(viewModelScope)

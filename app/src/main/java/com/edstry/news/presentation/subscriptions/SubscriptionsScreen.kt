@@ -2,6 +2,7 @@
 
 package com.edstry.news.presentation.subscriptions
 
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,7 +28,6 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
@@ -40,25 +40,24 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
+import coil3.toUri
 import com.edstry.news.R
 import com.edstry.news.domain.entity.Article
 import com.edstry.news.presentation.ui.CustomIcons
 import com.edstry.news.presentation.utils.formatDate
-import kotlin.math.max
-import kotlin.math.sin
 
 @Composable
 fun SubscriptionsScreen(
@@ -110,7 +109,7 @@ fun SubscriptionsScreen(
                 )
             }
 
-            if(state.articles.isNotEmpty()) {
+            if (state.articles.isNotEmpty()) {
                 item {
                     HorizontalDivider()
                 }
@@ -268,7 +267,7 @@ private fun Subscriptions(
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        if(subscriptions.isNotEmpty()) {
+        if (subscriptions.isNotEmpty()) {
             Text(
                 fontWeight = FontWeight.Bold,
                 text = stringResource(R.string.subscriptions_label, subscriptions.size)
@@ -335,7 +334,7 @@ private fun ArticleCard(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        if(article.description.isNotEmpty()) {
+        if (article.description.isNotEmpty()) {
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 text = article.description,
@@ -370,10 +369,12 @@ private fun ArticleCard(
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            val context = LocalContext.current
             Button(
                 modifier = Modifier.weight(1f),
                 onClick = {
-
+                    val intent = Intent(Intent.ACTION_VIEW, article.url.toUri())
+                    context.startActivity(intent)
                 }
             ) {
                 Icon(
@@ -387,7 +388,11 @@ private fun ArticleCard(
             Button(
                 modifier = Modifier.weight(1f),
                 onClick = {
-
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TEXT, "${article.title}\n\n${article.url}")
+                    }
+                    context.startActivity(intent)
                 }
             ) {
                 Icon(
