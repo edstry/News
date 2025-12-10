@@ -2,8 +2,10 @@ package com.edstry.news.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.edstry.news.domain.repository.NewsRepository
 import com.edstry.news.presentation.subscriptions.SubscriptionsScreen
@@ -22,8 +24,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             NewsTheme {
+                val permissionLauncher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.RequestPermission(),
+                    onResult = {}
+                )
                 SubscriptionsScreen(
-                    onNavigateToSettings = {}
+                    onNavigateToSettings = {
+                        permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                    }
                 )
             }
         }
