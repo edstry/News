@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.edstry.news.presentation.subscriptions
+package com.edstry.news.presentation.screen.subscriptions
 
 import android.content.Intent
 import androidx.compose.foundation.clickable
@@ -53,7 +53,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import coil3.toUri
 import com.edstry.news.R
 import com.edstry.news.domain.entity.Article
 import com.edstry.news.presentation.ui.CustomIcons

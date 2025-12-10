@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
 
-package com.edstry.news.presentation.subscriptions
+package com.edstry.news.presentation.screen.subscriptions
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
