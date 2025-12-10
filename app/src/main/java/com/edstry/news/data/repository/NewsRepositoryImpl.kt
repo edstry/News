@@ -12,8 +12,10 @@ import com.edstry.news.data.local.model.ArticleDbModel
 import com.edstry.news.data.local.model.SubscriptionDbModel
 import com.edstry.news.data.mapper.toDbModels
 import com.edstry.news.data.mapper.toEntities
+import com.edstry.news.data.mapper.toQueryParam
 import com.edstry.news.data.remote.api.NewsApiService
 import com.edstry.news.domain.entity.Article
+import com.edstry.news.domain.entity.Language
 import com.edstry.news.domain.entity.RefreshConfig
 import com.edstry.news.domain.repository.NewsRepository
 import kotlinx.coroutines.CancellationException
@@ -41,14 +43,15 @@ class NewsRepositoryImpl @Inject constructor(
         newsDao.addSubscription(SubscriptionDbModel(topic))
     }
 
-    override suspend fun updateArticlesForTopic(topic: String) {
-        val articles = loadArticles(topic)
-        newsDao.addArticles(articles)
+    override suspend fun updateArticlesForTopic(topic: String, language: Language): Boolean {
+        val articles = loadArticles(topic, language)
+        val ids = newsDao.addArticles(articles)
+        return ids.any { it != -1L }
     }
 
-    private suspend fun loadArticles(topic: String): List<ArticleDbModel> {
+    private suspend fun loadArticles(topic: String, language: Language): List<ArticleDbModel> {
         return try {
-            newsApiService.loadArticles(topic).toDbModels(topic)
+            newsApiService.loadArticles(topic, language.toQueryParam()).toDbModels(topic)
         } catch (e: Exception) {
             if(e is CancellationException) {
                 throw e
@@ -62,17 +65,20 @@ class NewsRepositoryImpl @Inject constructor(
         newsDao.deleteSubscription(SubscriptionDbModel(topic))
     }
 
-    // Все эти запросы будут выполняться параллельно независимо друг от друга
-    // то есть в разных корутинах
-    override suspend fun updateArticlesForAllSubscription() {
+    override suspend fun updateArticlesForAllSubscription(language: Language): List<String> {
+        val updatedTopics = mutableListOf<String>()
         val subscriptions = newsDao.getAllSubscriptions().first()
         coroutineScope {
             subscriptions.forEach {
                 launch {
-                    updateArticlesForTopic(it.topic)
+                    val updated = updateArticlesForTopic(it.topic, language)
+                    if(updated) {
+                        updatedTopics.add(it.topic)
+                    }
                 }
             }
         }
+        return updatedTopics
     }
 
     override fun getArticlesByTopics(topics: List<String>): Flow<List<Article>> {

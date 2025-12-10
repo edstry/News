@@ -5,6 +5,7 @@ import com.edstry.news.data.local.model.ArticleDbModel
 import com.edstry.news.data.remote.dto.NewsResponseDto
 import com.edstry.news.domain.entity.Article
 import com.edstry.news.domain.entity.Interval
+import com.edstry.news.domain.entity.Language
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -19,6 +20,15 @@ fun NewsResponseDto.toDbModels(topic: String): List<ArticleDbModel> {
             topic = topic,
             publishedAt = it.publishedAt.toTimestamp()
         )
+    }
+}
+
+fun Language.toQueryParam(): String {
+    return when(this) {
+        Language.ENGLISH -> "en"
+        Language.RUSSIAN -> "ru"
+        Language.FRENCH -> "fr"
+        Language.GERMAN -> "de"
     }
 }
 
