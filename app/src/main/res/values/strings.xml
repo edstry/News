@@ -11,4 +11,9 @@
     <string name="new_articles">New articles</string>
     <string name="new_articles_notification_title">New articles</string>
     <string name="update_subscriptions">Update %1$d subscriptions: %2$s</string>
+    <string name="settings">Settings</string>
+    <string name="english">English</string>
+    <string name="russian">Русский</string>
+    <string name="french">Francais</string>
+    <string name="getman">Deutsch</string>
 </resources>

@@ -7,6 +7,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import com.edstry.news.presentation.navigation.NavGraph
+import com.edstry.news.presentation.screen.settings.SettingsScreen
 import com.edstry.news.presentation.screen.subscriptions.SubscriptionsScreen
 import com.edstry.news.presentation.ui.theme.NewsTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,15 +23,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             NewsTheme {
-                val permissionLauncher = rememberLauncherForActivityResult(
-                    contract = ActivityResultContracts.RequestPermission(),
-                    onResult = {}
-                )
-                SubscriptionsScreen(
-                    onNavigateToSettings = {
-                        permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                    }
-                )
+                NavGraph()
             }
         }
     }
